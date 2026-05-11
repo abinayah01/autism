@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Emotion Learning</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/emotion.css') }}">
+</head>
+
+<body>
+
+<h2>Emotion Learning</h2>
+
+<div id="emotion-emoji">😊</div>
+
+<div class="options">
+  <button onclick="checkAnswer('happy')">Happy</button>
+  <button onclick="checkAnswer('sad')">Sad</button>
+  <button onclick="checkAnswer('angry')">Angry</button>
+  <button onclick="checkAnswer('surprised')">Surprised</button>
+</div>
+
+<div id="feedback"></div>
+<div id="stars"></div>
+
+<!-- 🔥 SCRIPT MUST BE AT END -->
+
+
+</body>
+</html>
+<script>
+const emotions = [
+  { emoji: "😊", answer: "happy" },
+  { emoji: "😢", answer: "sad" },
+  { emoji: "😡", answer: "angry" },
+  { emoji: "😮", answer: "surprised" }
+];
+
+let index = 0;
+let score = 0;
+
+const emojiBox = document.getElementById("emotion-emoji");
+const feedback = document.getElementById("feedback");
+const stars = document.getElementById("stars");
+
+function completeModule(module, percent) {
+  let data = JSON.parse(localStorage.getItem("weeklyProgress")) || {
+    eye: [], speech: [], emotion: [], focus: []
+  };
+  data[module].push(percent);
+  localStorage.setItem("weeklyProgress", JSON.stringify(data));
+}
+
+function loadEmotion() {
+  emojiBox.innerText = emotions[index].emoji;
+  feedback.innerText = "";
+  stars.innerText = "";
+}
+
+function checkAnswer(ans) {
+  if (ans === emotions[index].answer) {
+    score++;
+    stars.innerText = "⭐ ⭐ ⭐";
+
+    setTimeout(() => {
+      index++;
+      if (index < emotions.length) {
+        loadEmotion();
+      } else {
+        finishEmotion();
+      }
+    }, 800);
+  } else {
+    feedback.innerText = "Try again 🙂";
+  }
+}
+
+function finishEmotion() {
+  const percent = Math.round((score / emotions.length) * 100);
+  completeModule("emotion", percent); // 🔥 SAVE
+ 
+  console.log("EMOTION DONE:", percent);
+  alert("Emotion Learning Completed 🎉");
+}
+
+loadEmotion();
+completeModule("emotion", 90);
+updateChart();
+function saveSessionProgress(module, percent){
+        let data = JSON.parse(localStorage.getItem("weeklyProgress")) || {
+            eye: [], speech: [], emotion: [], focus: []
+        };
+        data[module].push(percent);
+        localStorage.setItem("weeklyProgress", JSON.stringify(data));
+    }
+</script>
+

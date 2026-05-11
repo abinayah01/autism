@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Social Trainer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/aitrainer.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <h2>🤖 AI Social Voice Trainer</h2>
+
+    <div class="section">
+        <h3>🎲 Social Scenario Practice</h3>
+        <button onclick="generateScenario()">Generate Scenario</button>
+        <div id="scenarioBox"></div>
+        <p id="scenario"></p>
+        <button onclick="speakText(document.getElementById('scenario').innerText)">
+🔊 Listen
+</button>
+        <button onclick="checkAnswer('A')" id="optionA"></button>
+        <button onclick="checkAnswer('B')" id="optionB"></button>
+        <button onclick="checkAnswer('C')" id="optionC"></button>
+    </div>
+
+    <div class="section">
+        <h3>🎤 Voice Emotion Chat</h3>
+        <button onclick="startListening()">Start Speaking</button>
+        <p id="userSpeech"></p>
+        <p id="aiReply"></p>
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>

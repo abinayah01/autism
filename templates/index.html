@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autism</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+
+</head>
+<body>
+   <div class="login-container">
+    <i>
+    <h1>Login</h1> </i>
+    <form method="POST" action="/">
+        
+        <label for="Name">Name                        
+
+        </label>
+        <input type="text" name="name"  placeholder="enter your name" required><br>
+        <br>
+        <label for="dob">Date of birth</label>
+        <input type="text" name="dob"  placeholder="DD/MM/YY" required> <br><br>
+        <label for="phone number">Phone Number</label>
+        <input type="text" name="phone"  placeholder="@13455556" required> <br><br>
+        <button type="submit">Login</button>
+    </form>
+    </div>
+</body>
+</html>

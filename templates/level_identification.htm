@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Level Identification</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/analysis.css') }}?v={{ time.time() if time else '' }}">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="container">
+
+    <h1 class="title">Level Identification Report</h1>
+
+    <!-- WEEKLY PROGRESS CHART -->
+    <div class="card">
+        <h2>Module Progress</h2>
+        <canvas id="weeklyChart" width="400" height="200"></canvas>
+    </div>
+
+    <!-- INTERPRETATION -->
+    <div class="card">
+        <h2>System Interpretation</h2>
+        <p>{{ interpretation if interpretation else "No data available yet." }}</p>
+    </div>
+
+    <!-- RECOMMENDATIONS -->
+    <div class="card">
+        <h2>AI Recommendations</h2>
+        <ul>
+            {% for rec in recommendations %}
+                <li>{{ rec }}</li>
+            {% else %}
+                <li>No recommendations yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <a href="/dashboard" class="back-link">← Back to Dashboard</a>
+
+</div>
+
+<script>
+    // Weekly Progress Chart (Bar Chart)
+    const modules = ["Eye", "Speech", "Emotion", "Focus"];
+    const dataValues = [
+    {{ analysis.eye if analysis.eye else 0 }},
+    {{ analysis.speech if analysis.speech else 0 }},
+    {{ analysis.emotion if analysis.emotion else 0 }},
+    {{ analysis.focus if analysis.focus else 0 }}
+   ];
+
+    const ctx = document.getElementById('weeklyChart').getContext('2d');
+    const weeklyChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: modules,
+            datasets: [{
+                label: 'Module Progress (%)',
+                data: dataValues,
+                backgroundColor: ["#4caf50", "#2196f3", "#ff9800", "#9c27b0"]
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: true, max: 100 }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

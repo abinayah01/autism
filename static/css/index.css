@@ -1,0 +1,74 @@
+h1{
+   color: rgb(243, 165, 49);
+   
+}
+body{
+    text-align: center;
+    background:url("https://img.freepik.com/premium-vector/background-world-autism-awareness-day_425826-456.jpg?w=826");
+    background-size:cover;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    
+
+}
+input,label{
+    font-family: cursive;
+    font-size: large;
+}
+button{
+    font-size: medium;
+    color:#610472
+}
+.login-container {
+    background: rgba(255, 255, 255, 0.92); 
+    padding: 30px 40px;
+    border-radius: 12px;
+    width: 350px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+
+.login-container h2 {
+    margin-bottom: 20px;
+    color: #ff7a00;
+    font-size: 28px;
+}
+
+
+.login-container label {
+    display: block;
+    text-align: left;
+    margin: 10px 0 5px;
+    font-weight: bold;
+}
+
+
+.login-container input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+
+.login-container button {
+    margin-top: 15px;
+    padding: 10px;
+    width: 100%;
+    background: #6a5acd;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.login-container button:hover {
+    background: #483d8b;
+}

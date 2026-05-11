@@ -1,0 +1,46 @@
+body {
+  font-family: Poppins, sans-serif;
+  background: #f4f7fb;
+}
+
+.container {
+  width: 500px;
+  margin: 50px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.speech-box {
+  margin: 20px 0;
+}
+
+.btn-group button {
+  margin: 10px;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #4a90e2;
+  color: white;
+}
+
+.progress {
+  height: 20px;
+  background: #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+#progress-bar {
+  height: 100%;
+  width: 0;
+  background: #4caf50;
+}
+
+#stars {
+  font-size: 24px;
+  margin: 10px;
+}

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Autism Support Dashboard</title>
+    <link rel="icon" href="{{url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="logo">🧠 Autism AI Support</div>
+    <div class="status">
+        <span class="dot"></span>
+        System Active
+    </div>
+</header>
+
+<section class="hero">
+    <h1>Child Progress Monitoring Dashboard</h1>
+    <p>AI-powered behavioral tracking and intelligent progress analytics</p>
+</section>
+
+<div class="dashboard-container">
+
+    <!-- Level Identification -->
+    <a href="/start-session" class="card">
+        <div class="icon">🎯</div>
+        <h3>Level Identification</h3>
+        <p>Face detection, focus tracking & emotion recognition</p>
+    </a>
+
+    <!-- Analysis -->
+    <a href="/analysis" class="card">
+        <div class="icon">📊</div>
+        <h3>Analysis Report</h3>
+        <p>Session-based behavioral insights & AI interpretation</p>
+    </a>
+
+    <!-- Learning -->
+    <a href="/learning" class="card">
+        <div class="icon">🧩</div>
+        <h3>Learning Phase</h3>
+        <p>Personalized activities & skill enhancement modules</p>
+    </a>
+
+    <!-- AI Trainer -->
+    <a href="/ai-trainer" class="card">
+        <div class="icon">🤖</div>
+        <h3>AI Social Trainer</h3>
+        <p>AI Social Voice Trainer Module</p>
+    </a>
+
+    <!-- Weekly -->
+    <a href="/weekly" class="card">
+        <div class="icon">📈</div>
+        <h3>Weekly Progress</h3>
+        <p>Trend analysis & long-term development tracking</p>
+    </a>
+
+</div>
+
+<footer>
+    © 2026 Autism AI Monitoring System | Autism Kids Learning Platform
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Speech Training</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/speech.css') }}">
+</head>
+<body>
+
+<div class="container">
+  <h2>Speech Training</h2>
+  <p id="levelText">Level 1: Single Words</p>
+
+  <div class="speech-box">
+    <h3 id="word">Say: Hello</h3>
+
+    <div class="btn-group">
+      <button onclick="playVoice()">🔊 Listen</button>
+      <button onclick="startListening()">🎤 Speak</button>
+      <button onclick="repeat()">🔁 Repeat</button>
+    </div>
+  </div>
+
+  <div id="stars"></div>
+
+  <div class="progress">
+    <div id="progress-bar"></div>
+    <span id="progress-text">0%</span>
+  </div>
+</div>
+
+<script>
+let level = 1;
+let completed = 0;
+const total = 4; // words per level
+
+const words = {
+  1: ["Hello", "Apple", "Dog", "Table"],
+  2: ["Good Morning", "Thank You", "My Name", "Good Night"],
+  3: ["I am happy", "I like apples", "This is my toy", "How are you"]
+};
+
+let voices = [];
+
+// 🔊 Load voices
+speechSynthesis.onvoiceschanged = () => {
+    voices = speechSynthesis.getVoices();
+};
+
+// 🔊 AI Speak
+function playVoice() {
+    speechSynthesis.cancel();
+    const text = "Say: " + words[level][completed];
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = "en-US";
+    utter.rate = 0.8;
+    utter.voice = voices.find(v => v.lang.includes("en")) || voices[0];
+    speechSynthesis.speak(utter);
+
+    document.getElementById("word").innerText = text;
+}
+
+// 🎤 Child Speak (using Web Speech API)
+function startListening() {
+    const rec = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    rec.lang = "en-US";
+    rec.interimResults = false;
+    rec.maxAlternatives = 1;
+
+    rec.onresult = e => {
+        const spoken = e.results[0][0].transcript;
+        alert("Child said: " + spoken);
+        markSpoken(spoken);
+    };
+
+    rec.onerror = () => {
+        alert("Please try again 🔁");
+    };
+
+    rec.start();
+}
+
+// ⭐ Mark Word Spoken & Update Progress
+function markSpoken(spokenWord) {
+    completed++;
+    document.getElementById("stars").innerHTML += "⭐";
+
+    let percent = Math.round((completed / total) * 100);
+    document.getElementById("progress-bar").style.width = percent + "%";
+    document.getElementById("progress-text").innerText = percent + "%";
+
+    if (completed === total) {
+        if (level < 3) {
+            level++;
+            completed = 0;
+            document.getElementById("stars").innerHTML = "";
+            document.getElementById("word").innerText = "Say: " + words[level][completed];
+        } else {
+            alert("Speech Training Completed 🎉");
+            saveSessionProgress("speech", 100); // weekly report
+        }
+    } else {
+        document.getElementById("word").innerText = "Say: " + words[level][completed];
+    }
+}
+
+// 🔁 Repeat AI
+function repeat() {
+    playVoice();
+}
+
+// 💾 Save Weekly Progress
+function saveSessionProgress(module, percent) {
+    let data = JSON.parse(localStorage.getItem("weeklyProgress")) || {
+        eye: [], speech: [], emotion: [], focus: []
+    };
+    data[module].push(percent);
+    localStorage.setItem("weeklyProgress", JSON.stringify(data));
+}
+</script>
+
+</body>
+</html>

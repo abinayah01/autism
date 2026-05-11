@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Learning Center</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/learning.css') }}">
+    <style>
+      #trainer-box {
+        position: relative;
+        width: 100%;
+        height: 300px;
+        border: 2px solid #ccc;
+        background: #fff;
+        overflow: hidden;
+      }
+      #trainer-box video {
+        width: 100%;
+        height: 100%;
+      }
+      #character {
+        position: absolute;
+        font-size: 50px;
+      }
+      #progress-container {
+        width: 80%;
+        margin: 10px auto;
+        background: #ddd;
+        height: 25px;
+        position: relative;
+      }
+      #progress-bar {
+        width: 0%;
+        height: 100%;
+        background: #4caf50;
+      }
+      #progress-text {
+        text-align: center;
+        margin-top: 5px;
+      }
+      #status {
+        text-align: center;
+        margin-top: 10px;
+        font-size: 18px;
+      }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1 class="main-title">AI Learning Center</h1>
+    <p class="subtitle">Personalized learning based on behavior analysis</p>
+
+    <!-- ===== Training Cards ===== -->
+    <div class="modules">
+        <!-- Eye Contact Card -->
+        <div class="card">
+            <div class="icon">👀</div>
+            <h2>Eye Contact Training</h2>
+            <p>Improve focus on objects or characters using AI-assisted guidance.</p>
+            <button id="start-eye" class="start-btn">Start</button>
+            <button id="quit-eye" class="quit-btn" style="display:none;">Quit</button>
+        </div>
+
+        <!-- Speech Card -->
+        <div class="card">
+            <div class="icon">🗣️</div>
+            <h2>Speech Training</h2>
+            <p>Practice single words to sentences with AI voice and feedback.</p>
+            <button class="start-btn" onclick="location.href='/speech'">Start</button>
+        </div>
+
+        <!-- Emotion Card -->
+        <div class="card">
+            <div class="icon">😊</div>
+            <h2>Emotion Learning</h2>
+            <p>Learn to recognize emotions with AI-assisted repetition if needed.</p>
+            <button class="start-btn" onclick="location.href='/emotion'">Start</button>
+        </div>
+
+        <!-- Attention & Focus Card -->
+        <div class="card">
+            <div class="icon">🎯</div>
+            <h2>Attention & Focus</h2>
+            <p>Engage in mini-games to build focus and reaction time.</p>
+            <button class="start-btn" onclick="location.href='/focus'">Start</button>
+        </div>
+    </div>
+
+    <!-- ===== Eye Contact Training Output ===== -->
+    <div id="eye-trainer-container" style="margin-top:40px;">
+        <h2>Eye Contact Training Session</h2>
+        <div id="trainer-box">
+            <video id="video" autoplay muted></video>
+            <div id="character">🐶</div>
+        </div>
+        <div id="progress-container">
+            <div id="progress-bar"></div>
+        </div>
+        <div id="progress-text">0%</div>
+        <div id="status">Status: ---</div>
+    </div>
+
+</div>
+
+<script>
+let progress = 0;
+let interval;
+let stream;
+
+const startBtn = document.getElementById("start-eye");
+const quitBtn = document.getElementById("quit-eye");
+const trainerContainer = document.getElementById("trainer-box");
+const character = document.getElementById("character");
+const progressBar = document.getElementById("progress-bar");
+const progressText = document.getElementById("progress-text");
+const statusEl = document.getElementById("status");
+const video = document.getElementById("video");
+
+// ✅ Save weekly progress
+function completeModule(module, percent) {
+  let data = JSON.parse(localStorage.getItem("weeklyProgress")) || {
+    eye: [], speech: [], emotion: [], focus: []
+  };
+  data[module].push(percent);
+  localStorage.setItem("weeklyProgress", JSON.stringify(data));
+  console.log(module + " saved: " + percent + "%");
+}
+
+function updateProgress() {
+  progressBar.style.width = progress + "%";
+  progressText.innerText = progress + "%";
+}
+
+function resetEye() {
+  startBtn.style.display = "inline-block";
+  quitBtn.style.display = "none";
+  progress = 0;
+  updateProgress();
+  statusEl.innerText = "Status: ---";
+  if(stream) stream.getTracks().forEach(t => t.stop());
+}
+
+// ✅ Start Eye Contact Training
+startBtn.onclick = async () => {
+  startBtn.style.display = "none";
+  quitBtn.style.display = "inline-block";
+
+  // Start camera
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({ video: true });
+    video.srcObject = stream;
+    video.play();
+  } catch(e) {
+    console.log("Camera not accessible:", e);
+  }
+
+  progress = 0;
+  updateProgress();
+
+  interval = setInterval(() => {
+    const parentW = trainerContainer.clientWidth - 50;
+    const parentH = trainerContainer.clientHeight - 50;
+    character.style.left = Math.random() * parentW + "px";
+    character.style.top = Math.random() * parentH + "px";
+
+    const focused = Math.random() > 0.2; // 80% chance focused
+    if(focused) {
+      progress += 10;
+      statusEl.innerText = "Status: Good job 👏";
+      character.innerText = "🐶"; // happy dog
+    } else {
+      statusEl.innerText = "Status: Gentle reminder 🔔";
+      character.innerText = "🔔"; // bell if distracted
+    }
+
+    if(progress > 100) progress = 100;
+    updateProgress();
+
+    if(progress >= 100) {
+      clearInterval(interval);
+      completeModule("eye", 100);
+      statusEl.innerText = "Training Completed 🎉";
+      alert("Eye Contact Training Completed 👀🎉");
+      resetEye();
+    }
+  }, 1000);
+};
+
+// ✅ Quit Training
+quitBtn.onclick = resetEye;
+</script>
+</body>
+</html>

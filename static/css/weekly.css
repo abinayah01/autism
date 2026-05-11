@@ -1,0 +1,49 @@
+/* Container for the weekly graph */
+.weekly-progress-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 25px;
+  background: #f9f9f9;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Title styling */
+.weekly-progress-container h2 {
+  text-align: center;
+  color: #1e3a8a;
+  margin-bottom: 25px;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+/* Chart canvas styling */
+#weeklyChart {
+  width: 100% !important;
+  height: 400px !important;
+}
+
+/* Optional: tooltip styling for Chart.js */
+.chartjs-tooltip {
+  background: #1e3a8a !important;
+  color: #fff !important;
+  padding: 6px 12px !important;
+  border-radius: 6px !important;
+  font-size: 0.85rem !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .weekly-progress-container {
+    padding: 15px;
+  }
+
+  .weekly-progress-container h2 {
+    font-size: 1.5rem;
+  }
+
+  #weeklyChart {
+    height: 300px !important;
+  }
+}

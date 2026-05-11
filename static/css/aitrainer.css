@@ -1,0 +1,91 @@
+/* ===== GLOBAL STYLE ===== */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #dfe9f3, #ffffff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* ===== MAIN CONTAINER ===== */
+.container {
+    width: 90%;
+    max-width: 900px;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+}
+
+/* ===== TITLE ===== */
+h2 {
+    text-align: center;
+    color: #4a4a4a;
+    margin-bottom: 20px;
+}
+
+/* ===== SECTION CARD ===== */
+.section {
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 15px;
+    background: #f8fbff;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+}
+
+/* ===== BUTTON STYLE ===== */
+button {
+    padding: 12px 18px;
+    margin: 8px 5px;
+    border: none;
+    border-radius: 12px;
+    background-color: #4c8bf5;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: #2f6edc;
+    transform: scale(1.05);
+}
+
+/* ===== SCENARIO BOX ===== */
+#scenarioBox {
+    margin-top: 15px;
+    padding: 15px;
+    background: #ffffff;
+    border-radius: 12px;
+    border: 2px solid #e3eafc;
+}
+
+/* ===== VOICE OUTPUT TEXT ===== */
+#userSpeech,
+#aiReply {
+    font-size: 16px;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+#userSpeech {
+    background: #e8f5e9;
+}
+
+#aiReply {
+    background: #fff3e0;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+    }
+
+    button {
+        width: 100%;
+    }
+}

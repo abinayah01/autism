@@ -1,0 +1,128 @@
+/* ===== Page Styling ===== */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f4f8;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Titles */
+.main-title {
+    font-size: 36px;
+    color: #1e3a8a;
+}
+
+.subtitle {
+    font-size: 18px;
+    color: #374151;
+    margin-bottom: 40px;
+}
+
+/* ===== Training Cards ===== */
+.modules {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.card {
+    background: #fff;
+    width: 220px;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.icon { font-size: 50px; margin-bottom: 10px; }
+
+.card h2 { font-size: 20px; color: #1e3a8a; margin-bottom: 10px; }
+
+.card p { font-size: 14px; color: #4b5563; margin-bottom: 15px; }
+
+.start-btn, .quit-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.start-btn { background: #2563eb; }
+.start-btn:hover { background: #1d4ed8; }
+
+.quit-btn { background: #ef4444; }
+.quit-btn:hover { background: #b91c1c; }
+
+/* ===== Trainer Output ===== */
+#eye-trainer-container { margin-top: 40px; text-align: center; }
+
+#trainer-box {
+    position: relative;
+    width: 600px;
+    height: 400px;
+    margin: 0 auto;
+    border: 2px solid #d1d5db;
+    border-radius: 10px;
+    background: #e0f2fe;
+    overflow: hidden;
+}
+
+#video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#character {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 50px;
+    transition: top 0.3s ease, left 0.3s ease;
+}
+
+/* ===== Progress Bar ===== */
+#progress-container {
+    width: 600px;
+    height: 25px;
+    background: #e5e7eb;
+    border-radius: 12px;
+    margin: 15px auto 0 auto;
+    overflow: hidden;
+    position: relative;
+}
+
+#progress-bar {
+    height: 100%;
+    background: #2563eb;
+    width: 0%;
+    transition: width 0.5s ease;
+}
+
+#progress-text {
+    position: absolute
+   width: 100%;
+    text-align: center;
+    top: 0;
+    left: 0;
+    font-weight: bold;
+    color: #fff;
+    line-height: 25px;
+}

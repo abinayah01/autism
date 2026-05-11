@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weekly Report Demo</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+
+</head>
+<body>
+    <h2>Weekly Progress Report</h2>
+    <canvas id="weeklyChart" width="400" height="200"></canvas>
+
+    <button id="simulateProgress">Simulate Progress</button>
+
+    <script>
+    // Initialize localStorage if empty
+    if(!localStorage.getItem("weeklyProgress")){
+        localStorage.setItem("weeklyProgress", JSON.stringify({
+            eye: [],
+            speech: [],
+            emotion: [],
+            focus: []
+        }));
+    }
+
+    // Function to save progress for a module
+    function saveSessionProgress(module, percent){
+        let data = JSON.parse(localStorage.getItem("weeklyProgress"));
+        data[module].push(percent);
+        localStorage.setItem("weeklyProgress", JSON.stringify(data));
+        updateChart();
+    }
+
+    // Helper to calculate average
+    function avg(arr){ 
+        if(!arr || arr.length === 0) return 0;
+        return Math.round(arr.reduce((a,b)=>a+b,0)/arr.length);
+    }
+
+    // Update the chart
+    let chart;
+    function updateChart(){
+        const data = JSON.parse(localStorage.getItem("weeklyProgress"));
+        const chartData = {
+            labels: ["Eye Contact", "Speech", "Emotion", "Focus"],
+            datasets: [{
+                label: "Average Progress (%)",
+                data: [avg(data.eye), avg(data.speech), avg(data.emotion), avg(data.focus)],
+                backgroundColor: ["#4CAF50","#2196F3","#FF9800","#9C27B0"]
+            }]
+        };
+
+        if(chart) {
+            chart.data = chartData;
+            chart.update();
+        } else {
+            chart = new Chart(document.getElementById("weeklyChart"), {
+                type: "bar",
+                data: chartData,
+                options: { responsive:true, scales:{ y:{ beginAtZero:true, max:100 } } }
+            });
+        }
+    }
+
+    // Simulate adding progress for testing
+    document.getElementById("simulateProgress").addEventListener("click", ()=>{
+        saveSessionProgress("eye", Math.floor(Math.random()*101));
+        saveSessionProgress("speech", Math.floor(Math.random()*101));
+        saveSessionProgress("emotion", Math.floor(Math.random()*101));
+        saveSessionProgress("focus", Math.floor(Math.random()*101));
+        alert("Progress simulated! Check the chart.");
+    });
+
+    // Initial chart
+    updateChart();
+    </script>
+</body>
+</html>

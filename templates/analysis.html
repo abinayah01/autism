@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Analysis Report</title>
+
+    <!-- IMPORTANT: cache bust -->
+     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+    <link rel="stylesheet"
+      
+      href="{{ url_for('static', filename='css/analysis.css') }}?v={{ time.time() }}">
+
+</head>
+<body>
+
+<div class="container">
+
+    <h1 class="title">Analysis Report</h1>
+
+    <!-- SESSION DATA -->
+    <div class="card">
+        <h2>Session Data</h2>
+
+        <div class="metric">
+            <span>Focus</span>
+            <div class="bar">
+                <div class="fill" style="width: {{ analysis.focus }}%"></div>
+            </div>
+            <span>{{ analysis.focus }}%</span>
+        </div>
+
+        <div class="metric">
+            <span>Head</span>
+            <div class="bar">
+                <div class="fill" style="width: {{ analysis.head }}%"></div>
+            </div>
+            <span>{{ analysis.head }}%</span>
+        </div>
+
+        <div class="metric">
+            <span>Smile</span>
+            <div class="bar">
+                <div class="fill" style="width: {{ analysis.smile }}%"></div>
+            </div>
+            <span>{{ analysis.smile }}%</span>
+        </div>
+
+        <div class="metric">
+            <span>Emotion</span>
+            <div class="bar">
+                <div class="fill" style="width: {{ analysis.emotion }}%"></div>
+            </div>
+            <span>{{ analysis.emotion }}%</span>
+        </div>
+    </div>
+
+    <!-- INTERPRETATION -->
+    <div class="card">
+        <h2>System Interpretation</h2>
+        <p>{{ interpretation }}</p>
+    </div>
+
+    <!-- RECOMMENDATIONS -->
+    <div class="card">
+        <h2>AI Recommendations</h2>
+        <ul>
+            {% for rec in recommendations %}
+                <li>{{ rec }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <a href="/dashboard" class="back-link">← Back to Dashboard</a>
+
+</div>
+
+</body>
+</html>

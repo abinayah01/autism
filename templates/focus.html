@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Attention & Focus</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/focus.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <h2>Attention & Focus Training</h2>
+
+    <!-- Game 1: Blink Object -->
+    <div class="activity">
+        <h3>1️⃣ Tap the blinking object!</h3>
+        <div id="blinkBox"></div>
+    </div>
+
+    <!-- Game 2: Moving Dot -->
+    <div class="activity">
+        <h3>2️⃣ Follow the moving dot!</h3>
+        <div id="movingDot"></div>
+    </div>
+
+    <!-- Game 3: Matching Shapes -->
+    <div class="activity">
+        <h3>3️⃣ Click the shape that matches the target!</h3>
+        <div id="shapeTarget"></div>
+        <div id="shapesContainer"></div>
+    </div>
+
+    <!-- Game 4: Color Sequence Memory -->
+    <div class="activity">
+        <h3>4️⃣ Repeat the color sequence!</h3>
+        <div id="colorSequenceContainer"></div>
+        <button id="startSequence">Start Sequence</button>
+    </div>
+
+    <!-- Progress -->
+    <div class="progress">
+        <div id="progress-bar"></div>
+        <span id="progress-text">0%</span>
+    </div>
+
+</div>
+
+
+</body>
+</html>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    let completedTasks = 0;
+    const totalTasks = 4; // 4 mini-games
+    const progressBar = document.getElementById("progress-bar");
+    const progressText = document.getElementById("progress-text");
+
+    // ===== Game 1: Blink Object =====
+    const blinkBox = document.getElementById("blinkBox");
+    blinkBox.style.opacity = "1";
+    blinkBox.dataset.completed = "false";
+
+    let blinkInterval = setInterval(() => {
+        if (blinkBox && blinkBox.style.display !== "none" && blinkBox.dataset.completed === "false") {
+            blinkBox.style.opacity = blinkBox.style.opacity === "1" ? "0" : "1";
+        }
+    }, 500);
+
+    blinkBox.addEventListener("click", () => {
+        if (blinkBox.dataset.completed === "true") return;
+        blinkBox.dataset.completed = "true";
+        blinkBox.style.display = "none";
+        completedTasks++;
+        updateProgress();
+    });
+
+    // ===== Game 2: Moving Dot =====
+    const movingDot = document.getElementById("movingDot");
+movingDot.dataset.completed = "false";
+
+// Make it visible initially
+movingDot.style.display = "block";
+movingDot.style.transform = "translate(0px, 0px)";
+
+let moveInterval = setInterval(() => {
+    if (movingDot.style.display !== "none" && movingDot.dataset.completed === "false") {
+        const x = Math.random() * 400; // horizontal movement
+        const y = Math.random() * 50;  // vertical movement
+        movingDot.style.transform = `translate(${x}px, ${y}px)`;
+    }
+}, 800);
+
+movingDot.addEventListener("click", () => {
+    if (movingDot.dataset.completed === "true") return;
+    movingDot.dataset.completed = "true";
+    movingDot.style.display = "none"; // hide after click
+    completedTasks++;
+    updateProgress();
+});
+
+
+    // ===== Game 3: Matching Shapes =====
+    const shapeTarget = document.getElementById("shapeTarget");
+    const shapesContainer = document.getElementById("shapesContainer");
+    const shapeColors = ["#F5A623", "#50E3C2", "#4A90E2"];
+    let targetColor = shapeColors[Math.floor(Math.random() * shapeColors.length)];
+    shapeTarget.style.background = targetColor;
+
+    shapeColors.forEach((c, i) => {
+        const div = document.createElement("div");
+        div.style.background = c;
+        div.addEventListener("click", () => {
+            if(div.dataset.completed) return;
+            div.dataset.completed = "true";
+            if(c === targetColor) completedTasks++; // correct shape
+            div.remove();
+            updateProgress();
+        });
+        shapesContainer.appendChild(div);
+    });
+
+    // ===== Game 4: Color Sequence Memory =====
+    const colorSeqContainer = document.getElementById("colorSequenceContainer");
+    const startSequence = document.getElementById("startSequence");
+    const seqColors = ["#FF5733", "#33FF57", "#3357FF"];
+    let sequence = [];
+    let userIndex = 0;
+
+    startSequence.addEventListener("click", () => {
+        colorSeqContainer.innerHTML = "";
+        sequence = [];
+        userIndex = 0;
+        for(let i=0;i<3;i++){
+            let color = seqColors[Math.floor(Math.random()*seqColors.length)];
+            sequence.push(color);
+            const div = document.createElement("div");
+            div.style.background = color;
+            colorSeqContainer.appendChild(div);
+        }
+        alert("Remember the sequence!");
+    });
+
+    colorSeqContainer.addEventListener("click", (e) => {
+        if(e.target.style.backgroundColor === sequence[userIndex]){
+            userIndex++;
+            if(userIndex >= sequence.length){
+                completedTasks++;
+                updateProgress();
+                alert("Great! Sequence done ✅");
+                colorSeqContainer.innerHTML = "";
+            }
+        } else {
+            alert("Try again 🔁");
+            userIndex = 0;
+        }
+    });
+
+    // ===== Update Progress =====
+    function updateProgress(){
+        let percent = Math.round((completedTasks / totalTasks) * 100);
+        progressBar.style.width = percent + "%";
+        progressText.innerText = percent + "%";
+
+        if(completedTasks >= totalTasks){
+            clearInterval(blinkInterval);
+            clearInterval(moveInterval);
+            saveSessionProgress("focus", percent);
+            alert("All Focus & Attention activities completed 🎉");
+        }
+    }
+
+    // ===== Weekly save =====
+    function saveSessionProgress(module, percent){
+        let data = JSON.parse(localStorage.getItem("weeklyProgress")) || {
+            eye: [], speech: [], emotion: [], focus: []
+        };
+        data[module].push(percent);
+        localStorage.setItem("weeklyProgress", JSON.stringify(data));
+    }
+
+}); // end DOMContentLoaded
+
+</script>
